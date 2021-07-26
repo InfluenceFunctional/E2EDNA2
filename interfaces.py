@@ -104,7 +104,7 @@ class mmb(): # macromolecule builder
                     scores.append(numerator/denominator)
 
         scores = np.asarray(scores)
-        self.foldFidelity = np.amax(scores)
+        self.foldFidelity = np.amax(scores, initial=0.0)
 
     def run(self):
         self.generateCommandFile()
