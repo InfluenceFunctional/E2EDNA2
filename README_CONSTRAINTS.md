@@ -63,7 +63,7 @@ residue_num,phi,psi,chain_id
 5,-85,-120,0
 ```
 
-### Common errors that might occur
+### Common errors that might occur**
 *Assuming everything above is followed*, some common errors that might show up are:
 
 1. ```Particle Coordinate is nan```
@@ -85,5 +85,9 @@ Phi: [None, <AtomGroup with 4 atoms>]
 Psi: [<AtomGroup with 4 atoms>, None]
 ```
 Which shows the problem mentioned earlier in this paragraph.
+
+3. Residue indexing issue
+
+In PDB files, whenever a new chain starts, the residue indexes start counting from 0. However, this is not the case with OpenMM. It will continue counting the residues. For instance, say a PDB contained a 2-chain protein with 10 residues each. In the ```.pdb``` file, once residue 10 of Chain A is reached, it will count residue 1 of Chain B. However, OpenMM will count residue 1 of Chain B as residue 11 (or rather, residue 10 by its counting convention). While this program has been written to account for such an error, it is always good to keep this in mind, especially when writing your own modifications to the simulation or analysis code.
 
 ****This is by no means an exhaustive list. If more errors are found, they will be added here.**
