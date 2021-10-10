@@ -200,11 +200,12 @@ def buildPeptide(peptide, customAngles=False):
     :return:
     """
     geo = Geometry.geometry(peptide[0])
-    angles_to_constrain = findAngles()  # all values in the list are strings
-    printRecord("Found angles_to_constrain successfully, beginning to constrain...\n")
-    
+
     if customAngles:
         printRecord("customAngles on\n")
+        angles_to_constrain = findAngles()  # all values in the list are strings
+        printRecord("Found angles_to_constrain successfully, beginning to constrain...\n")
+        
         phis = {row[0]: float(row[1]) for row in angles_to_constrain}
         psis = {row[0]: float(row[2]) for row in angles_to_constrain}
         
@@ -212,6 +213,8 @@ def buildPeptide(peptide, customAngles=False):
             if int(row[0]) == 0:
                 printRecord('phi[0] and psi[0]:', phis[row[0]], psis[row[0]], "\n") # only used for debugging
                 geo.phi, geo.psi = phis[row[0]], psis[row[0]]
+    else:
+        printRecord("Custom angles off")
         
     structure = PeptideBuilder.initialize_res(peptide[0])
         
