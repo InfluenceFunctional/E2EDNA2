@@ -151,7 +151,9 @@ class opendna:
 
         # copy relevant files to the workDir
         os.mkdir(self.workDir + '/outfiles')
-        copyfile(self.params['leap template'], self.workDir + '/leap_template.in')
+        
+        if self.params['implicit solvent']:
+            copyfile(self.params['leap template'], self.workDir + '/leap_template.in')
         # copy structure files
         copyfile(self.params['analyte pdb'], self.workDir + '/analyte.pdb')  # ie, target of the aptamer
 
