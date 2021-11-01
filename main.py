@@ -94,6 +94,7 @@ if params['device'] == 'cluster':
     params['sequence'] = cmdLineInputs[1] # sequence specified from command line
     params['peptide'] = cmdLineInputs[2] # peptide specified from command line
     params['max walltime'] = cmdLineInputs[3] # maximum walltime
+    params['peptide backbone constraint constant'] = cmdLineInputs[4]
 elif params['device'] == 'local':
     params['run num'] = 0  # manual setting, for 0, do a fresh run, for != 0, pickup on a previous run.
     params['sequence'] = 'CCCGGGCCCGGG' # manually set sequence # ATP aptamer
@@ -167,7 +168,6 @@ params['constraints'] = HBonds
 params['rigid water'] = True
 params['constraint tolerance'] = 1e-6
 params['hydrogen mass'] = 1.5  # in amu - we can increase the time if we increase this value
-params['peptide backbone constraint constant'] = 10000
 
 # paths
 if params['device'] == 'local':
