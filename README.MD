@@ -11,33 +11,34 @@ For original version of E2EDNA: J. Chem. Inf. Model. 2021, 61, 9, 4139–4144 (h
 
 ## Installation
 This installation path has been tested on macOS and it relies on conda and pip package managers. 
-1. Download the E2EDNA package from this repository.
+1. Download the E2EDNA 2.0 package from this repository.
 2. Register and download NUPACK from http://www.nupack.org/downloads, you will need the path to ~/nupack-###/source/package directory
-3. In the e2edna directory please modify the macos_installation.sh script: update the path to nupack (see step 2)
-4. From e2edna folder run macos_installation.sh. 
-   * Caveat: in case `conda activate e2edna` command gives an error, please either replace it with `source activate /path-to-env/e2edna` 
-   * OR alternatively copy paste commands from the script without modifications to command line and run one by one, this will 100% work ok
-6. Register and download MMB from https://simtk.org/projects/rnatoolbox . Place the Installer### folder into the e2edna folder. NB: Do not specify DYLD_LIBRARY_PATH against the recommendations of the MMB installation guide. This is to avoid interference with the OpenMM module.
-7. Update 3 paths in main.py: 
-      * params['workdir'] = '/path-to-e2edna/localruns'   # working directory   
+3. In the E2EDNA2 directory please modify the [``macos_installation.sh``](https://github.com/InfluenceFunctional/E2EDNA2/blob/main/macos_installation.sh) script: update the path to nupack (see step 2)
+4. From E2EDNA2 folder run [``macos_installation.sh``](https://github.com/InfluenceFunctional/E2EDNA2/blob/main/macos_installation.sh). 
+   * Caveat: in case `conda activate e2edna` command gives an error or if after the script finishes e2edna enviroment has not been activated, please either replace the activation command with with `source activate /path-to-env/e2edna` 
+   * OR alternatively copy paste commands from the script without modifications to command line and run one by one, this will go around the unconfigured shell issue.
+6. Register and download MMB from https://simtk.org/projects/rnatoolbox . Place the Installer### folder into the e2edna folder. NB: Do not specify `DYLD_LIBRARY_PATH` against the recommendations of the MMB installation guide. This is to avoid interference with the OpenMM module.
+7. Update 3 paths in main.py:
+```
+      params['workdir'] = '/path-to-e2edna/localruns'                         # working directory   
        
-      * params['mmb dir'] = '/path-to-e2edna/e2edna/Installer.###/lib'      # path to MMB dylib files
+      params['mmb dir'] = '/path-to-e2edna/e2edna/Installer.###/lib'          # path to MMB dylib files
        
-      * params['mmb']     = '/path-to-e2edna/Installer.###/bin/MMB-executable' #path to MMB executable    
-       
+      params['mmb']     = '/path-to-e2edna/Installer.###/bin/MMB-executable'  # path to MMB executable    
+```
 ## Running a job
 
 ### Quickstart
-* Set 'params' in [``main.py``](https://github.com/InfluenceFunctional/OpenDNA/blob/main/main.py), as indicated in "Installation".
-* Run the bash script [``automate_tests.sh``](https://github.com/InfluenceFunctional/OpenDNA/blob/main/automate_tests.sh) to test all 8 modes automatically.
+* Set 'params' in [``main.py``](https://github.com/InfluenceFunctional/E2EDNA2/blob/main/main.py), as indicated in "Installation".
+* Run the bash script [``automate_tests.sh``](https://github.com/InfluenceFunctional/E2EDNA2/blob/main/automate_tests.sh) to test all 8 modes automatically.
 * Alternatively, a single run can be carried out by run_num, mode, aptamer sequence, and ligand's structural file. For example,
 ```
 python main.py --run_num=1 --mode='free aptamer' --aptamerSeq='TAATGTTAATTG' --ligand='False' --ligandType='' --ligandSeq=''
 python main.py --run_num=2 --mode='full dock' --aptamerSeq='TAATGTTAATTG' --ligand='YQTQ.pdb' --ligandType='peptide' --ligandSeq='YQTQTNSPRRAR'
     
-#--ligand='False'        # if no ligand. --ligandType and --ligandSeq will be ignored.
-#--ligandType='peptide'  # or 'DNA' or 'RNA' or 'other'. Assuming 'other' ligand can be described by Amber14 force field.
-#--ligandSeq=''          # if no sequence. For instance, when ligandType is 'other'
+# --ligand='False'        # if no ligand. --ligandType and --ligandSeq will be ignored.
+# --ligandType='peptide'  # or 'DNA' or 'RNA' or 'other'. Assuming 'other' ligand can be described by Amber14 force field.
+# --ligandSeq=''          # if no sequence. For instance, when ligandType is 'other'
 
 ```
 
@@ -54,69 +55,51 @@ This code implements several distinct analysis modes so users may customize the 
 * `full dock` &rarr; Return best docking configurations and scores from a LightDock run using the fully-equilibrated aptamer structure 'free aptamer'. Similar cost (LightDock is relatively cheap)
 * `full binding` &rarr; Same steps as 'full docking', with follow-up extended MD simulation of the best binding configuration. Slowest O(hours).
 
+# Test run: inputs and outcomes
+Running this script [``automate_tests.sh``](https://github.com/InfluenceFunctional/E2EDNA2/blob/main/automate_tests.sh) will automatically run simple very light simulations of all 8 modes.
+Here we explain what outputs to look for and what success looks like.
 
-* Mode 1:
-Description! aGCGCGCGCGCGC’
+* Mode 1:`2d structure` 
+Input: fasta sequence, e.g, CGCGCGCGCGCGC
 
 Outputs:
 
 Success evaluation: observe the dot-parenthesis representation for 2d structure, e.g., ..(...)..
 
-* Mode 2: 
-Description!
+* Mode 2:`3d coarse`
 
-Input: fasta sequence, e.g, CGCGCGCGCGCGC
-
-Modifications to the code: 
-set params[‘mode’] = ‘3d unrefined’
-params['sequence'] =’CGCGCGCGCGCGC’
+Input: ‘3d unrefined’,  fasta sequence, e.g, CGCGCGCGCGCGC
 
 Outputs: 
 
 Success evaluation: Visualize foldedAptamer_0.pdb in VMD or PyMOL
 
 
-* Mode 3:
-Description! 
+* Mode 3:`3d coarse`
 
 Input: fasta sequence, e.g, CGCGCGCGCGCGC 
 
-Modifications to the code: 
-set params[‘mode’] = ‘3d refined’
-params['sequence'] =’CGCGCGCGCGCGC’
-
 Outputs: 
 
 Success evaluation:
 
-* Mode 4: 
-Description! 
+* Mode 4:`coarse dock`
 
 Input: fasta sequence, e.g, CGCGCGCGCGCGC; PDB of target ligand, e.g., ‘target.pdb’
 
-Modifications to the code: 
-set params[‘mode’] = ‘unrefined dock’
-params['sequence'] =’CGCGCGCGCGCGC’
-params[‘target’] = ‘target.pdb’  # need to update the code for this.
-
 Outputs: 
 
 Success evaluation:
 
-* Mode 5:
+* Mode 5:`smooth dock`
 Input: fasta sequence, e.g, CGCGCGCGCGCGC; PDB of target ligand, e.g., ‘target.pdb’
 
-Modifications to the code: 
-set params[‘mode’] = ‘refined dock’
-params['sequence'] =’CGCGCGCGCGCGC’
-params[‘target’] = ‘target.pdb’   # need to update the code for this.
-
 Outputs: 
 
 Success evaluation:
 
 
-* Mode 6: “free aptamer”
+* Mode 6: `free aptamer`
 Given a DNA sequence, its secondary structure will be predicted and represented by a contact map of dot-parenthesis notation. Under the guidance of the predicted secondary structure, the sequence will then be folded into an initial three dimensional conformation. Last step is to run a molecular-dynamics simulation to sample its conformational space and find out the representative conformation from the MD trajectory. (if we ask contact predictor for >1 ssStructure)
 
 Input: fasta sequence, e.g, CGCGCGCGCGCGC
@@ -139,7 +122,7 @@ The DCD trajectory file is generated, and file “log.txt” shows that the MD s
 Visualize MD trajectory of free aptamer using the topology and the binary trajectory file.
 Visualize representative conformation of the DNA aptamer.
 
-* Mode 7: full dock
+* Mode 7: `full dock`
 Given a DNA sequence, its secondary structure will be predicted and represented by a contact map of dot-parenthesis notation. Under the guidance of the predicted secondary structure, the sequence will then be folded into an initial three dimensional conformation. Next is to run a molecular-dynamics simulation to sample its conformational space and find out the representative conformation from the MD trajectory. Finally, the representative structure will be docked by a target ligand of interest (its structure must be provided as a PDB file).
 
 Input: fasta sequence, e.g, CGCGCGCGCGCGC; PDB of target ligand, e.g., ‘target.pdb’
@@ -164,7 +147,7 @@ Visualize MD trajectory of free aptamer using the topology and the binary trajec
 Visualize representative conformation of the DNA aptamer.
 Visualize aptamer-ligand complex structure.
 
-* Mode 8: full binding
+* Mode 8: `full binding`
 Given a DNA sequence, its secondary structure will be predicted and represented by a contact map of dot-parenthesis notation. Under the guidance of the predicted secondary structure, the sequence will then be folded into an initial three dimensional conformation. Next is to run a molecular-dynamics simulation to sample its conformational space and find out the representative conformation from the MD trajectory. The representative structure will be docked by a target ligand of interest (its structure must be provided as a PDB file). Finally, the aptamer-ligand complex molecule will be sampled by MD simulation to investigate its dynamics.
 
 Input: fasta sequence, e.g, CGCGCGCGCGCGC; PDB of target ligand, e.g., ‘target.pdb’
