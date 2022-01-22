@@ -358,17 +358,16 @@ class omm:
             radians = unit.radians
 
             rad_conv = pi / 180
-            self.nchains = len(self.topology._chains)
+            # self.nchains = len(self.topology._chains)
 
-            printRecord("Number of chains = " + str(self.nchains))
+            # printRecord("Number of chains = " + str(self.nchains))
             printRecord("Beginning to iterate through chains...\n")
 
             for row in self.angles_to_constrain:
-                aa_id, phi, psi, chain_id = row[0], row[1], row[2], row[3]
-                aa_id, phi, psi, chain_id = int(aa_id), float(phi), float(psi), int(chain_id)
+                aa_id, phi, psi, chain_id = int(row[0]), float(row[1]), float(row[2]), int(row[3])
 
                 printRecord(f"aa_id = {aa_id}, phi = {phi}, psi = {psi}, chain_id = {chain_id}")
-                printRecord("Printing first 5 atoms in topology.atoms()...")
+                # printRecord("Printing first 5 atoms in topology.atoms()...")
 
                 # first5 = [atom for atom in self.topology.atoms()]
                 # first5 = first5[:5]
@@ -376,10 +375,7 @@ class omm:
                 # for atom in first5:
                 # printRecord(f"Atom name={atom.name}, Atom residue chain index = {atom.residue.chain.index}, Atom residue index = {atom.residue.index}")
 
-                self.da_atoms = [atom for atom in self.topology.atoms() if
-                                 atom.residue.chain.index == chain_id and atom.name in {'N', 'CA',
-                                                                                        'C'} and atom.residue.index in {
-                                     aa_id, aa_id - 1}]
+                self.da_atoms = [atom for atom in self.topology.atoms() if atom.name in {'N', 'CA', 'C'} and atom.residue.index in {aa_id, aa_id - 1}]
 
                 printRecord("Identified da_atoms.\n")
 
