@@ -319,7 +319,7 @@ def buildPeptide(peptideSeq, peptidePDB, customAngles=False):
         for row in angles_to_constrain:
             if int(row[0]) == 0:
                 printRecord('phi[0] and psi[0]:', phis[row[0]], psis[row[0]], "\n")  # only used for debugging
-                geo.phi, geo.psi = phis[row[0]], psis[row[0]]
+                geo.phi, geo.psi_im1 = phis[row[0]], psis[row[0]]
 
     structure = PeptideBuilder.initialize_res(peptideSeq[0])
 
@@ -330,7 +330,7 @@ def buildPeptide(peptideSeq, peptidePDB, customAngles=False):
             for row in angles_to_constrain:
                 if int(row[0]) == i:
                     printRecord(f'phi[{i}] and psi[{i}]: {phis[str(i)]}, {psis[str(i)]}\n')  # only used for debugging
-                    geo.phi, geo.psi = phis[str(i)], psis[str(i)]
+                    geo.phi, geo.psi_im1 = phis[str(i)], psis[str(i)]
 
         printRecord("Adding Residue...\n")
         PeptideBuilder.add_residue(structure, geo)
