@@ -72,7 +72,6 @@ if params['implicit solvent'] is True:
                                             # If target is peptide or RNA, will also add "leaprc.protein.ff14SB" or "source leaprc.RNA.OL3" to the "leap.in"
 params['build a peptide as target ligand'] = False
 params['peptide backbone constraint constant'] = 0  # if target ligand is a peptide, we can choose to put constraint on the peptide's dihedral angles. force constant k. 
-# Ask Ilya: What's its unit? Only works if the target ligand is a peptide?
 # ************************************************************************************************************************************************************
 
 if params['skip MMB'] is True: params['folded initial structure'] = 'foldedAptamer_0.pdb'  
