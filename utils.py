@@ -321,7 +321,7 @@ def buildPeptide(peptideSeq, peptidePDB, customAngles=False):
                 printRecord('phi[0] and psi[0]:', phis[row[0]], psis[row[0]], "\n")  # only used for debugging
                 geo.phi, geo.psi_im1 = phis[row[0]], psis[row[0]]
 
-    structure = PeptideBuilder.initialize_res(peptideSeq[0])
+    structure = PeptideBuilder.initialize_res(geo)
 
     for i in range(1, len(peptideSeq)):
         geo = Geometry.geometry(peptideSeq[i])
