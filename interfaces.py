@@ -361,7 +361,7 @@ class omm:
             # self.nchains = len(self.topology._chains)
 
             # printRecord("Number of chains = " + str(self.nchains))
-            printRecord("Beginning to iterate through chains...\n")
+            printRecord("Beginning to iterate through peptide...\n")
 
             for row in self.angles_to_constrain:
                 aa_id, phi, psi, chain_id = int(row[0]), float(row[1]), float(row[2]), int(row[3])
@@ -403,7 +403,7 @@ class omm:
                                                   self.tupIndex[1],
                                                   self.tupIndex[2],
                                                   self.tupIndex[3], (psi * rad_conv,) * radians)
-                            printRecord("Successfully added a phi torsion restraint.\n")
+                            printRecord("Successfully added a psi torsion restraint.\n")
 
             self.system.addForce(self.force)
             printRecord("Successfully added the force.\n")
