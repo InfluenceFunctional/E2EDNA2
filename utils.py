@@ -2,7 +2,7 @@
 Utitilies -- how to intuitively distinguish it from analysisTools.py?
 """
 from simtk.openmm.app import *
-import simtk.openmm.unit as unit
+import simtk.unit as unit
 
 import argparse
 import os
@@ -37,7 +37,8 @@ def get_input():
     parser.add_argument('--ligand', type=str, default='False')
     parser.add_argument('--ligandType', type=str, default='')
     parser.add_argument('--ligandSeq', type=str, default='')
-    
+    parser.add_argument('--k', type=int, default=0)
+
     cmd_line_input = parser.parse_args()
     run_num = cmd_line_input.run_num
     mode = cmd_line_input.mode
@@ -45,8 +46,9 @@ def get_input():
     ligand = cmd_line_input.ligand
     ligandType = cmd_line_input.ligandType
     ligandSeq = cmd_line_input.ligandSeq
+    k = cmd_line_input.k
     
-    return [run_num, mode, aptamerSeq, ligand, ligandType, ligandSeq]
+    return [run_num, mode, aptamerSeq, ligand, ligandType, ligandSeq, k]
 
 
 def recenterDCD(topology, trajectory):
