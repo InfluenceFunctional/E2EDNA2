@@ -13,7 +13,7 @@ from nupack import *
 
 from simtk.openmm import *
 from simtk.openmm.app import *
-import simtk.openmm.unit as unit
+from simtk.unit import *
 
 from utils import *
 from analysisTools import *
