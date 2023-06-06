@@ -1,6 +1,8 @@
 # Documentation
 ## E2EDNA 2.0 - OpenMM Implementation of E2EDNA !
 
+### Please redirect yourself to this repository for the updated codebase: https://github.com/siminegroup/E2EDNA2
+
 ### An automated pipeline for simulation of DNA aptamers complexed with small molecules and short peptides.
 
 **Michael Kilgour, Tao Liu, Ilya S. Dementyev, Lena Simine**
